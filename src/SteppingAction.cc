@@ -196,6 +196,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
       {
 	
         CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_total += 1;
+	//	std::cout<<"num cher "<<CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_total<<std::endl;
         if (aapdgid == (-211))
           CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_particleID[0] += 1;
         if (aapdgid == (-11))

@@ -102,6 +102,9 @@ int CreateTree::Fill()
 bool CreateTree::Write(TFile *outfile)
 {
   outfile->cd();
+
+  std::cout<<" writing "<<CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_total<<std::endl;
+
   ftree->Write();
 
 
