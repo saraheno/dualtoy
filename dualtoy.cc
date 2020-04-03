@@ -49,7 +49,7 @@
 #include "TString.h"
 #include "TTree.h"
 #include "TRandom3.h"
-//#include "TCint.h"
+
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -57,7 +57,7 @@
 #include "G4EmUserPhysics.hh"
 #include "G4EmStandardPhysics.hh"
 #include "G4VModularPhysicsList.hh"
-//#include "G4StepLimiterBuilder.hh"
+
 
 
 #include "QGSP_BERT.hh"
@@ -89,35 +89,13 @@ long int CreateSeed();
 
 int main(int argc,char** argv)
 {
-  //  gInterpreter -> GenerateDictionary("vector<float>","vector");
+
 
   string file;
   string filename;
   TFile* outfile = NULL;
   bool DDD=0;
   bool BOOO=0;
-  /*  
-  if (argc != 3 && argc != 2)
-  {
-    cout << "Syntax for exec: crystal <configuration file> <output file>" << endl; 
-    cout << "Syntax for viz:  crystal <configuration file>" << endl; 
-    return 0;
-  }
-  if(argc == 3) 
-  {
-    cout << "Starting exec mode..." << endl; 
-    file = argv[2];
-    filename = file + ".root";
-    G4cout << "Writing data to file '" << filename << "' ..." << G4endl;
-    
-    outfile = new TFile((TString)filename,"RECREATE");
-    outfile -> cd();
-  }
-    if (argc == 2)
-  {
-    cout<<"Starting viz mode..."<<endl; 
-  }
-  */
 
 
   G4String macro;
@@ -231,11 +209,7 @@ int main(int argc,char** argv)
   G4cout << ">>> Define DetectorConstruction::end <<<" << G4endl; 
   
   G4cout << ">>> Define PrimaryGeneratorAction::begin <<<" << G4endl; 
-//  G4double bar_length = config.read<double> ("bar_length");
-//  G4double source_dist = config.read<double> ("source_dist");
-//  G4double abs_thick = config.read<double> ("abs_thick");
-//  G4double z_0 = -0.5 * (bar_length+abs_thick) - 3*mm - source_dist;
-//  G4VUserPrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction(z_0);
+
   G4VUserPrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction(0);
   runManager->SetUserAction(gen_action);
   G4cout << ">>> Define PrimaryGeneratorAction::end <<<" << G4endl; 
@@ -259,8 +233,7 @@ int main(int argc,char** argv)
   G4cout << ">>> Define TrackingAction::end <<<" << G4endl;
   
   G4cout << ">>> Define SteppingAction::begin <<<" << G4endl; 
-/*  SteppingAction* stepping_action4toy = new SteppingAction(argv[1]);
-  runManager->SetUserAction(stepping_action4toy); */
+
 
   SteppingAction* stepping_action = new SteppingAction(detector,propagateScintillation,propagateCerenkov);
   runManager->SetUserAction(stepping_action); 
