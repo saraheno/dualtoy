@@ -83,37 +83,14 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
   config.readInto(checkOverlaps, "checkOverlaps");
 
   config.readInto(world_material, "world_material");
-  config.readInto(bar_length, "bar_length");
 
-  config.readInto(core_radius_x, "core_radius_x");
-  config.readInto(core_radius_y, "core_radius_y");
-  config.readInto(core_material, "core_material");
-  config.readInto(core_rIndex, "core_rIndex");
-  config.readInto(core_absLength, "core_absLength");
 
-  config.readInto(gap_l, "gap_l");
-  config.readInto(gap_size_x, "gap_size_x");
-  config.readInto(gap_size_y, "gap_size_y");
-  config.readInto(gap_material, "gap_material");
-
-  config.readInto(det_l, "det_l");
-  config.readInto(det_size_x, "det_size_x");
-  config.readInto(det_size_y, "det_size_y");
-  config.readInto(det_material, "det_material");
-
-  config.readInto(depth, "depth");
-  config.readInto(cryst_dist, "cryst_dist");
-  config.readInto(trackerX0, "trackerX0");
-  config.readInto(services_thick, "services_thick");
-
-  config.readInto(ecal_incline, "ecal_incline");
   config.readInto(ecal_material, "ecal_material");
   config.readInto(scinti_material, "scinti_material");
   config.readInto(Cherenc_material, "Cherenc_material");
-  config.readInto(Cherenp_material, "Cherenp_material");
+
 
   config.readInto(ecal_front_length, "ecal_front_length");
-  config.readInto(ecal_rear_length, "ecal_rear_length");
   config.readInto(ecal_front_face, "ecal_front_face");
   config.readInto(ecal_rear_face, "ecal_rear_face");
   config.readInto(hole_diameter, "hole_diameter");
@@ -121,12 +98,7 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
   config.readInto(ecal_timing_distance, "ecal_timing_distance");
   config.readInto(ecal_det_size, "ecal_det_size");
 
-  config.readInto(hcal_width, "hcal_width");
-  config.readInto(hcalTile_width, "hcalTile_width");
-  config.readInto(hcalAbs_1_thick, "hcalAbs_1_thick");
-  config.readInto(hcalAbs_2_thick, "hcalAbs_2_thick");
-  config.readInto(solenoid_thick, "solenoid_thick");
-  config.readInto(hcalTile_thick, "hcalTile_thick");
+
 
   B_field_intensity = config.read<double>("B_field_intensity") * tesla;
 
@@ -140,9 +112,9 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
 
   CreateTree::Instance()->inputTrackerX0 = trackerX0;
   CreateTree::Instance()->inputServiceAlmm = services_thick;
-  CreateTree::Instance()->inputTimingThick = core_radius_x * 2;
+  //  CreateTree::Instance()->inputTimingThick = core_radius_x * 2;
   CreateTree::Instance()->inputE1Thick = ecal_front_length;
-  CreateTree::Instance()->inputE2Thick = ecal_rear_length;
+  //CreateTree::Instance()->inputE2Thick = ecal_rear_length;
   CreateTree::Instance()->inputE1Width = ecal_front_face;
   CreateTree::Instance()->inputTimingECAL_dist = ecal_timing_distance;
 }
@@ -282,11 +254,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
 
 
-  G4VisAttributes *VisCrystalCore = new G4VisAttributes(blue);
-  VisCrystalCore->SetVisibility(true);
-  VisCrystalCore->SetForceWireframe(true);
-
-  ecalCrystalL_f_absorb->SetVisAttributes(VisCrystalCore);
 
   G4VisAttributes *VisFiber = new G4VisAttributes(red);
   VisFiber->SetVisibility(true);
@@ -325,39 +292,6 @@ void DetectorConstruction::initializeMaterials()
   }
   G4cout << "Wo. material: " << WoMaterial << G4endl;
 
-  CoMaterial = NULL;
-  if (core_material == 1)
-    CoMaterial = MyMaterials::Quartz();
-  else if (core_material == 2)
-    CoMaterial = MyMaterials::SiO2();
-  else if (core_material == 3)
-    CoMaterial = MyMaterials::SiO2_Ce();
-  else if (core_material == 4)
-    CoMaterial = MyMaterials::LuAG_Ce();
-  else if (core_material == 5)
-    CoMaterial = MyMaterials::YAG_Ce();
-  else if (core_material == 6)
-    CoMaterial = MyMaterials::LSO();
-  else if (core_material == 7)
-    CoMaterial = MyMaterials::LYSO();
-  else if (core_material == 8)
-    CoMaterial = MyMaterials::LuAG_undoped();
-  else if (core_material == 9)
-    CoMaterial = MyMaterials::GAGG_Ce();
-  else if (core_material == 11)
-    CoMaterial = MyMaterials::LuAG_Pr();
-  else if (core_material == 12)
-    CoMaterial = MyMaterials::PbF2();
-  else if (core_material == 13)
-    CoMaterial = MyMaterials::PlasticBC408();
-  else if (core_material == 14)
-    CoMaterial = MyMaterials::PlasticBC418();
-  else
-  {
-    G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid fibre clad material specifier " << core_material << G4endl;
-    exit(-1);
-  }
-  G4cout << "Co. material: " << CoMaterial << G4endl;
 
   EcalMaterial = NULL;
   if (ecal_material == 1)
@@ -494,104 +428,10 @@ void DetectorConstruction::initializeMaterials()
   G4cout << "Cherenk material: " << CherencMaterial << G4endl;
 
 
-  CherenpMaterial = NULL;
-  if (Cherenp_material == 1)
-    CherenpMaterial = MyMaterials::Quartz();
-  else if (Cherenp_material == 2)
-    CherenpMaterial = MyMaterials::SiO2();
-  else if (Cherenp_material == 3)
-    CherenpMaterial = MyMaterials::SiO2_Ce();
-  else if (Cherenp_material == 4)
-    CherenpMaterial = MyMaterials::LuAG_Ce();
-  else if (Cherenp_material == 5)
-    CherenpMaterial = MyMaterials::YAG_Ce();
-  else if (Cherenp_material == 6)
-    CherenpMaterial = MyMaterials::LSO();
-  else if (Cherenp_material == 7)
-    CherenpMaterial = MyMaterials::LYSO();
-  else if (Cherenp_material == 8)
-    CherenpMaterial = MyMaterials::LuAG_undoped();
-  else if (Cherenp_material == 9)
-    CherenpMaterial = MyMaterials::GAGG_Ce();
-  else if (Cherenp_material == 10)
-    CherenpMaterial = MyMaterials::LuAG_Pr();
-  else if (Cherenp_material == 11)
-    CherenpMaterial = MyMaterials::PbF2();
-  else if (Cherenp_material == 12)
-    CherenpMaterial = MyMaterials::PlasticBC408();
-  else if (Cherenp_material == 13)
-    CherenpMaterial = MyMaterials::PlasticBC418();
-  else if (Cherenp_material == 14)
-    CherenpMaterial = MyMaterials::PWO();
-  else if (Cherenp_material == 15)
-    CherenpMaterial = MyMaterials::Acrylic();
-  else if (Cherenp_material == 16)
-    CherenpMaterial = MyMaterials::copper();
-  else if (Cherenp_material == 17)
-    CherenpMaterial = MyMaterials::Brass();
-  else if (Cherenp_material == 18)
-    CherenpMaterial = MyMaterials::EJ200();
-  else
-  {
-    G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid fibre clad material specifier " << Cherenp_material << G4endl;
-    exit(-1);
-  }
-  G4cout << "Cherenk2 material: " << CherenpMaterial << G4endl;
   /************************************************************************************/
 
-  GaMaterial = NULL;
-  if (gap_material == 1)
-    GaMaterial = MyMaterials::Air();
-  else if (gap_material == 2)
-    GaMaterial = MyMaterials::OpticalGrease();
-  else if (gap_material == 3)
-    GaMaterial = MyMaterials::MeltMount168();
-  else if (gap_material == 4)
-    GaMaterial = MyMaterials::OpticalGrease155();
-  else
-  {
-    G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid gap material specifier " << gap_material << G4endl;
-    exit(-1);
-  }
-  G4cout << "Gap material: " << GaMaterial << G4endl;
 
-  DeMaterial = NULL;
-  if (det_material == 1)
-    DeMaterial = MyMaterials::Silicon();
-  else if (det_material == 2)
-    DeMaterial = MyMaterials::Quartz();
-  else if (det_material == 3)
-    DeMaterial = MyMaterials::Air();
-  else
-  {
-    G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid detector material specifier " << det_material << G4endl;
-    exit(-1);
-  }
-  G4cout << "Detector material: " << DeMaterial << G4endl;
-
-  //------------------
-  // change properties
-
-  if (core_absLength > 0)
-  {
-    const G4int nEntries_ABS = 2;
-    G4double PhotonEnergy_ABS[nEntries_ABS] = {1. * eV, 10. * eV};
-    G4double Absorption[nEntries_ABS] = {core_absLength * mm, core_absLength * mm};
-
-    CoMaterial->GetMaterialPropertiesTable()->RemoveProperty("ABSLENGTH");
-    CoMaterial->GetMaterialPropertiesTable()->AddProperty("ABSLENGTH", PhotonEnergy_ABS, Absorption, nEntries_ABS);
-  }
-  if (core_rIndex > 0)
-  {
-    const G4int nEntries_RI = 2;
-    G4double PhotonEnergy_RI[nEntries_RI] = {1. * eV, 10. * eV};
-    G4double RefractiveIndex[nEntries_RI] = {core_rIndex, core_rIndex};
-
-    CoMaterial->GetMaterialPropertiesTable()->RemoveProperty("RINDEX");
-    CoMaterial->GetMaterialPropertiesTable()->AddProperty("RINDEX", PhotonEnergy_RI, RefractiveIndex, nEntries_RI);
-  }
 }
-
 //---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 void DetectorConstruction::ConstructField()
