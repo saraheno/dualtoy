@@ -95,7 +95,6 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
   config.readInto(ecal_rear_face, "ecal_rear_face");
   config.readInto(hole_diameter, "hole_diameter");
   config.readInto(fiber_diameter, "fiber_diameter");
-  config.readInto(ecal_timing_distance, "ecal_timing_distance");
   config.readInto(ecal_det_size, "ecal_det_size");
 
 
@@ -110,13 +109,13 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
 
   initializeMaterials();
 
-  CreateTree::Instance()->inputTrackerX0 = trackerX0;
-  CreateTree::Instance()->inputServiceAlmm = services_thick;
+  //CreateTree::Instance()->inputTrackerX0 = trackerX0;
+  //CreateTree::Instance()->inputServiceAlmm = services_thick;
   //  CreateTree::Instance()->inputTimingThick = core_radius_x * 2;
   CreateTree::Instance()->inputE1Thick = ecal_front_length;
   //CreateTree::Instance()->inputE2Thick = ecal_rear_length;
   CreateTree::Instance()->inputE1Width = ecal_front_face;
-  CreateTree::Instance()->inputTimingECAL_dist = ecal_timing_distance;
+  //CreateTree::Instance()->inputTimingECAL_dist = ecal_timing_distance;
 }
 
 //---- ---- ---- ---- ---- ---- ---- ---- ----  ---- ---- ---- ---- ---- ----
@@ -208,14 +207,14 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
 
       sprintf(name, "ecalCrystalP_f_absorb_%d", iCrystal);
-      ecalCrystalP_f[iCrystal] = new G4PVPlacement(0, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+0.5*hole_diameter), ecalCrystalL_f_absorb, name, worldLV, false, 0);
+      ecalCrystalP_f[iCrystal] = new G4PVPlacement(0, G4ThreeVector(0, 0, z_pos_f[iCrystal]+0.5*hole_diameter), ecalCrystalL_f_absorb, name, worldLV, false, 0);
 
       sprintf(name, "ecalCrystalP_f_fiber_scinti_%d", iCrystal);
-      ecalCrystalP_f_fiber_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+0.5*fiber_diameter), ecalCrystalL_f_fiber_scinti, name, worldLV, false, 0);
+      ecalCrystalP_f_fiber_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0,  z_pos_f[iCrystal]+hole_diameter+0.5*fiber_diameter), ecalCrystalL_f_fiber_scinti, name, worldLV, false, 0);
 
       
       sprintf(name, "ecalCrystalP_f_fiber_cherenc_%d", iCrystal);
-      ecalCrystalP_f_fiber_cherenc[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+1.5*fiber_diameter), ecalCrystalL_f_fiber_cherenc, name, worldLV, false, 0);
+      ecalCrystalP_f_fiber_cherenc[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, z_pos_f[iCrystal]+hole_diameter+1.5*fiber_diameter), ecalCrystalL_f_fiber_cherenc, name, worldLV, false, 0);
 
 
       //
