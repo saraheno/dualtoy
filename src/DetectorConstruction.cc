@@ -171,8 +171,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4VPhysicalVolume *worldPV = new G4PVPlacement(0, G4ThreeVector(), worldLV, "worldPV", 0, false, 0, checkOverlaps);
 
 
-  // the cooling-services Dead material layer: 5 cm
-  // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
 
   const int NECAL_CRYST = 100; 
@@ -181,25 +179,24 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
 
   //********************************************
-  //  ELECTROMAGNETIC CALORIMETER
+  // CALORIMETER
   //********************************************
-  std::cout<<"EM calorimeter construction "<<std::endl;
+  std::cout<<"calorimeter construction "<<std::endl;
 
 
 
   std::cout<<"making passive with width "<<hole_diameter<<std::endl;
   G4Box *ecalCrystalS_f_absorb = new G4Box("ecalCrystalS_f_absorb", 0.5*ecal_front_face, 0.5 * ecal_rear_face,  0.5*(hole_diameter-5.));
-
   G4LogicalVolume *ecalCrystalL_f_absorb = new G4LogicalVolume(ecalCrystalS_f_absorb, EcalMaterial, "ecalCrystalL_f_absorb", 0, 0, 0);
 
 
 
   std::cout<<"making active with width "<<fiber_diameter<<std::endl;
-  G4Box *ecalCrystalS_f_fiber = new G4Box("ecalCrystalS_f_fiber", 0.5*ecal_front_face, 0.5 * ecal_rear_face, 0.5 * (3.*fiber_diameter));
+  G4Box *ecalCrystalS_f_fiber = new G4Box("ecalCrystalS_f_fiber", 0.5*ecal_front_face, 0.5 * ecal_rear_face, 0.5 *fiber_diameter);
 
   G4LogicalVolume *ecalCrystalL_f_fiber_scinti = new G4LogicalVolume(ecalCrystalS_f_fiber, ScintiMaterial, "ecalCrystalL_f_fiber_scinti", 0, 0, 0);
-  //  G4LogicalVolume *ecalCrystalL_f_fiber_cherenc = new G4LogicalVolume(ecalCrystalS_f_fiber, CherencMaterial, "ecalCrystalL_f_fiber_cherenc", 0, 0, 0);
-  //  G4LogicalVolume *ecalCrystalL_f_fiber_cherenp = new G4LogicalVolume(ecalCrystalS_f_fiber, CherenpMaterial, "ecalCrystalL_f_fiber_cherenp", 0, 0, 0);
+  G4LogicalVolume *ecalCrystalL_f_fiber_cherenc = new G4LogicalVolume(ecalCrystalS_f_fiber, CherencMaterial, "ecalCrystalL_f_fiber_cherenc", 0, 0, 0);
+
 
 
   //
@@ -207,17 +204,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   // ECAL physical placement
   G4VPhysicalVolume *ecalCrystalP_f[NECAL_CRYST];
-
-
-
-
   G4VPhysicalVolume *ecalCrystalP_f_fiber_scinti[NECAL_CRYST];
+  G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenc[NECAL_CRYST];
 
 
-  //G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenc[NECAL_CRYST];
-
-
-  //G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenp[NECAL_CRYST];
+//G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenp[NECAL_CRYST];
 
 
 
@@ -239,37 +230,23 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
       iCrystal = nArrayECAL * iX + iY;
 
-      z_pos_f[iCrystal] = iCrystal*( hole_diameter+ fiber_diameter*3);
+      z_pos_f[iCrystal] = iCrystal*( hole_diameter+ fiber_diameter*2);
 
       std::cout<<"iCrystal "<<iCrystal<<" iX iY "<<iX<<" "<<iY<<" z "<<z_pos_f[iCrystal]<<std::endl;
 
-
-
-      //add dream detector instead of the original one
 
       sprintf(name, "ecalCrystalP_f_absorb_%d", iCrystal);
       ecalCrystalP_f[iCrystal] = new G4PVPlacement(0, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+0.5*hole_diameter), ecalCrystalL_f_absorb, name, worldLV, false, 0);
 
       sprintf(name, "ecalCrystalP_f_fiber_scinti_%d", iCrystal);
-      ecalCrystalP_f_fiber_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+0.5*3.*fiber_diameter), ecalCrystalL_f_fiber_scinti, name, worldLV, false, 0);
+      ecalCrystalP_f_fiber_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+0.5*fiber_diameter), ecalCrystalL_f_fiber_scinti, name, worldLV, false, 0);
 
-      /*
+      
       sprintf(name, "ecalCrystalP_f_fiber_cherenc_%d", iCrystal);
       ecalCrystalP_f_fiber_cherenc[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+1.5*fiber_diameter), ecalCrystalL_f_fiber_cherenc, name, worldLV, false, 0);
 
 
-      sprintf(name, "ecalCrystalP_f_fiber_cherenp_%d", iCrystal);
-      ecalCrystalP_f_fiber_cherenp[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, ecal_timing_distance + z_pos_f[iCrystal]+hole_diameter+2.5*fiber_diameter), ecalCrystalL_f_fiber_cherenp, name, worldLV, false, 0);
-      */
-
       //
-
-      sprintf(name, "ecalGapP_f_%d", iCrystal);
-
-
-
-
-      sprintf(name, "ecalDetP_f_%d", iCrystal);
 
 
 
@@ -315,8 +292,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   VisFiber->SetVisibility(true);
   VisFiber->SetForceWireframe(true);
   ecalCrystalL_f_fiber_scinti->SetVisAttributes(VisFiber);
-  //  ecalCrystalL_f_fiber_cherenc->SetVisAttributes(VisFiber);
-  //ecalCrystalL_f_fiber_cherenp->SetVisAttributes(VisFiber);
+  ecalCrystalL_f_fiber_cherenc->SetVisAttributes(VisFiber);
+
 
 
   if (B_field_intensity > 0.1 * tesla)
