@@ -172,6 +172,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
         (nStep == 1) && (processName == "Cerenkov"))
     {
 
+
       TrackInformation *theTrackInfo = (TrackInformation *)(theTrack->GetUserInformation());
       //G4ThreeVector haha=theTrackInfo->GetParentMomentum();
       //G4double haha2=theTrackInfo->GetParentEnergy()/GeV;
@@ -193,6 +194,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
 
       else if (thePrePVName.contains("ecalCrystalP_f_fiber_cheren"))
       {
+	
         CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_total += 1;
         if (aapdgid == (-211))
           CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_particleID[0] += 1;

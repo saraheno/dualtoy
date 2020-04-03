@@ -1371,6 +1371,21 @@ G4Material* MyMaterials::EJ200()
 }
 
 
+
+G4Material* MyMaterials::LiquidAr()
+{
+
+  G4double a;  // mass of a mole;
+  G4double z;  // z=mean number of protons;
+  G4double density;
+  G4Material* material = new G4Material("liquidArgon", z=18., a= 39.95*g/mole, density= 1.390*g/cm3);
+
+  return material;
+
+
+}
+
+
 G4Material* MyMaterials::Acrylic(){
 
 

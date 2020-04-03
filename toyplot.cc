@@ -31,12 +31,14 @@ void toyplot() {
   float depositedIonEnergyECAL_f[3];// this is total ionizing energy
   float depositedEnergyEscapeWorld;
   float depositedEnergyTotal,depositedEnergyWorld;
+  int ncerk;
 
   t1->SetBranchAddress("inputMomentum",&inputMomentum);
   t1->SetBranchAddress("depositedEnergyEscapeWorld",&depositedEnergyEscapeWorld);
   t1->SetBranchAddress("depositedEnergyTotal",&depositedEnergyTotal);
   t1->SetBranchAddress("depositedEnergyECAL_f",&depositedEnergyECAL_f);
   t1->SetBranchAddress("depositedIonEnergyECAL_f",&depositedIonEnergyECAL_f);
+  t1->SetBranchAddress("tot_phot_cer_ECAL_cheren_f_total",&ncerk);
 
 
   Int_t nentries = (Int_t)t1->GetEntries();
@@ -61,6 +63,7 @@ void toyplot() {
     std::cout<<"world energy deposited is "<<depositedEnergyEscapeWorld<<std::endl;
     std::cout<<"Abs Scint Quartz "<<Eabs<<" "<<Escint<<" "<<Equartz<<std::endl;
     std::cout<<"AbsT ScintT QuartzT "<<EabsT<<" "<<EscintT<<" "<<EquartzT<<std::endl;
+    std::cout<<" number of scint photos "<<ncerk<<std::endl;
 
 
     hTotalE->Fill(depositedEnergyTotal/trueE);

@@ -374,6 +374,9 @@ void DetectorConstruction::initializeMaterials()
     ScintiMaterial = MyMaterials::Brass();
   else if (scinti_material == 18)
     ScintiMaterial = MyMaterials::EJ200();
+  else if (scinti_material == 19)
+    ScintiMaterial = MyMaterials::LiquidAr();
+
   else
   {
     G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid fibre clad material specifier " << scinti_material << G4endl;

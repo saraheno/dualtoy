@@ -18,6 +18,7 @@ public:
   ~MyMaterials();
 //  static const G4double kInfinity = 9.0E99; 
   static G4Material* Vacuum();
+  static G4Material* LiquidAr();
   static G4Material* Air();
   static G4Material* Water();
   static G4Material* Silicon();
