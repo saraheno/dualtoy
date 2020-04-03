@@ -9,8 +9,8 @@ const float sampling_fraction=100.;
 
 void toyplot() {
 
-  const char* inputfilename="pion_50GeV.root";
-  const char* outputfilename="pion_50GeV_hist.root";
+  const char* inputfilename="electron_50GeV.root";
+  const char* outputfilename="electron_50GeV_hist.root";
 
   TH1F *hTotalE = new TH1F("hTotalE","energy depisited /true",600,0.,1.1);
   TH1F *hWorldE = new TH1F("hWorldE","energy total world /true",600,0.,1.1);
