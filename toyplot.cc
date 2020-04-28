@@ -19,7 +19,7 @@ void toyplot() {
   TH1F *hQuartzE = new TH1F("hQuartzE","energy quartz /true",600,0.,0.1);
   TH1F *hScintQuartzE = new TH1F("hScintQuartzE","energy scint+quartz /true",600,0.,0.1);
   TH1F *hAbsOScintE = new TH1F("hAbsOScintE","energy absorber / energy scint",600,0.,200.);
-  TH1F *hAbsOQuartzE = new TH1F("hAbsOQuartzE","energy absorber / energy scint",600,0.,200.);
+  TH1F *hAbsOQuartzE = new TH1F("hAbsOQuartzE","energy absorber / energy quartz",600,0.,200.);
   TH1F *hAbsOBothE = new TH1F("hAbsOBothE","energy absorber / energy scint",600,0.,200.);
 
 
@@ -46,13 +46,13 @@ void toyplot() {
     t1->GetEntry(i);
     float trueE=9999999.;
     if((*inputMomentum)[3]>0) trueE=(*inputMomentum)[3];
-    float Eabs=depositedEnergyECAL_f[0];
+    float Eabs=depositedIonEnergyECAL_f[0];
     float Escint=depositedIonEnergyECAL_f[1];
     float Equartz=depositedIonEnergyECAL_f[2];
 
-    float EabsT=depositedIonEnergyECAL_f[0];
-    float EscintT=depositedIonEnergyECAL_f[1];
-    float EquartzT=depositedIonEnergyECAL_f[2];
+    float EabsT=depositedEnergyECAL_f[0];
+    float EscintT=depositedEnergyECAL_f[1];
+    float EquartzT=depositedEnergyECAL_f[2];
 
     
     std::cout<<endl<<"event number "<<i<<std::endl;
