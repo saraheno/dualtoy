@@ -118,8 +118,8 @@ private:
   G4double ecal_rear_length;
   G4double ecal_front_face;
   G4double ecal_rear_face;
-  G4double hole_diameter;
-  G4double fiber_diameter;
+  G4double pass_thick;
+  G4double act_thick;
   G4double ecal_timing_distance;
   G4double ecal_det_size;
 
