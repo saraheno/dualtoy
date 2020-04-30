@@ -119,7 +119,8 @@ private:
   G4double ecal_front_face;
   G4double ecal_rear_face;
   G4double pass_thick;
-  G4double act_thick;
+  G4double act1_thick;
+  G4double act2_thick;
   G4double ecal_timing_distance;
   G4double ecal_det_size;
 

@@ -94,7 +94,8 @@ DetectorConstruction::DetectorConstruction(const string &configFileName)
   config.readInto(ecal_front_face, "ecal_front_face");
   config.readInto(ecal_rear_face, "ecal_rear_face");
   config.readInto(pass_thick, "pass_thick");
-  config.readInto(act_thick, "act_thick");
+  config.readInto(act1_thick, "act1_thick");
+  config.readInto(act2_thick, "act2_thick");
   config.readInto(ecal_det_size, "ecal_det_size");
 
 
@@ -162,11 +163,13 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
 
 
-  std::cout<<"making active with width "<<act_thick<<std::endl;
-  G4Box *ecalCrystalS_f_fiber = new G4Box("ecalCrystalS_f_fiber", 0.5*ecal_front_face, 0.5 * ecal_rear_face, 0.5 *act_thick);
+  std::cout<<"making active1 with width "<<act1_thick<<std::endl;
+  G4Box *ecalCrystalS_f_act1 = new G4Box("ecalCrystalS_f_act1", 0.5*ecal_front_face, 0.5 * ecal_rear_face, 0.5 *act1_thick);
+  std::cout<<"making active2 with width "<<act2_thick<<std::endl;
+  G4Box *ecalCrystalS_f_act2 = new G4Box("ecalCrystalS_f_act2", 0.5*ecal_front_face, 0.5 * ecal_rear_face, 0.5 *act2_thick);
 
-  G4LogicalVolume *ecalCrystalL_f_fiber_scinti = new G4LogicalVolume(ecalCrystalS_f_fiber, ScintiMaterial, "ecalCrystalL_f_fiber_scinti", 0, 0, 0);
-  G4LogicalVolume *ecalCrystalL_f_fiber_cherenc = new G4LogicalVolume(ecalCrystalS_f_fiber, CherencMaterial, "ecalCrystalL_f_fiber_cherenc", 0, 0, 0);
+  G4LogicalVolume *ecalCrystalL_f_act1_scinti = new G4LogicalVolume(ecalCrystalS_f_act1, ScintiMaterial, "ecalCrystalL_f_act1_scinti", 0, 0, 0);
+  G4LogicalVolume *ecalCrystalL_f_act2_cherenc = new G4LogicalVolume(ecalCrystalS_f_act2, CherencMaterial, "ecalCrystalL_f_act2_cherenc", 0, 0, 0);
 
 
 
@@ -175,11 +178,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
   // ECAL physical placement
   G4VPhysicalVolume *ecalCrystalP_f[NECAL_CRYST];
-  G4VPhysicalVolume *ecalCrystalP_f_fiber_scinti[NECAL_CRYST];
-  G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenc[NECAL_CRYST];
+  G4VPhysicalVolume *ecalCrystalP_f_act1_scinti[NECAL_CRYST];
+  G4VPhysicalVolume *ecalCrystalP_f_act2_cherenc[NECAL_CRYST];
 
 
-//G4VPhysicalVolume *ecalCrystalP_f_fiber_cherenp[NECAL_CRYST];
+
 
 
 
@@ -201,7 +204,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
 
       iCrystal = nArrayECAL * iX + iY;
 
-      z_pos_f[iCrystal] = iCrystal*( pass_thick+ act_thick*2);
+      z_pos_f[iCrystal] = iCrystal*( pass_thick+ act1_thick+act2_thick);
 
       std::cout<<"iCrystal "<<iCrystal<<" iX iY "<<iX<<" "<<iY<<" z "<<z_pos_f[iCrystal]<<std::endl;
 
@@ -209,12 +212,12 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
       sprintf(name, "ecalCrystalP_f_absorb_%d", iCrystal);
       ecalCrystalP_f[iCrystal] = new G4PVPlacement(0, G4ThreeVector(0, 0, z_pos_f[iCrystal]+0.5*pass_thick), ecalCrystalL_f_absorb, name, worldLV, false, 0);
 
-      sprintf(name, "ecalCrystalP_f_fiber_scinti_%d", iCrystal);
-      ecalCrystalP_f_fiber_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0,  z_pos_f[iCrystal]+pass_thick+0.5*act_thick), ecalCrystalL_f_fiber_scinti, name, worldLV, false, 0);
+      sprintf(name, "ecalCrystalP_f_act1_scinti_%d", iCrystal);
+      ecalCrystalP_f_act1_scinti[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0,  z_pos_f[iCrystal]+pass_thick+0.5*act1_thick), ecalCrystalL_f_act1_scinti, name, worldLV, false, 0);
 
       
-      sprintf(name, "ecalCrystalP_f_fiber_cherenc_%d", iCrystal);
-      ecalCrystalP_f_fiber_cherenc[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, z_pos_f[iCrystal]+pass_thick+1.5*act_thick), ecalCrystalL_f_fiber_cherenc, name, worldLV, false, 0);
+      sprintf(name, "ecalCrystalP_f_act2_cherenc_%d", iCrystal);
+      ecalCrystalP_f_act2_cherenc[iCrystal] = new G4PVPlacement(piRotEcal, G4ThreeVector(0, 0, z_pos_f[iCrystal]+pass_thick+act1_thick+0.5*act2_thick), ecalCrystalL_f_act2_cherenc, name, worldLV, false, 0);
 
 
       //
@@ -257,8 +260,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4VisAttributes *VisFiber = new G4VisAttributes(red);
   VisFiber->SetVisibility(true);
   VisFiber->SetForceWireframe(true);
-  ecalCrystalL_f_fiber_scinti->SetVisAttributes(VisFiber);
-  ecalCrystalL_f_fiber_cherenc->SetVisAttributes(VisFiber);
+  ecalCrystalL_f_act1_scinti->SetVisAttributes(VisFiber);
+  ecalCrystalL_f_act2_cherenc->SetVisAttributes(VisFiber);
 
 
 

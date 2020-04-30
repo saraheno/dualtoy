@@ -192,7 +192,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
 
 
 
-      else if (thePrePVName.contains("ecalCrystalP_f_fiber_cheren"))
+      else if (thePrePVName.contains("ecalCrystalP_f_act2_cheren"))
       {
 	
         CreateTree::Instance()->tot_phot_cer_ECAL_cheren_f_total += 1;
@@ -216,7 +216,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
 
       }
 
-      else if (thePrePVName.contains("ecalCrystalP_f_fiber_scinti"))
+      else if (thePrePVName.contains("ecalCrystalP_f_act1_scinti"))
       {
         CreateTree::Instance()->tot_phot_cer_ECAL_scinti_f_total += 1;
         if (aapdgid == (-211))
@@ -285,7 +285,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
         CreateTree::Instance()->depositedIonEnergyECAL_absorb_f_particleID[7] += energyIonProton / GeV;
       }
 
-      if (thePrePVName.contains("ecalCrystalP_f_fiber_scinti"))
+      if (thePrePVName.contains("ecalCrystalP_f_act1_scinti"))
       {
         CreateTree::Instance()->depositedEnergyECAL_f[1] += energy / GeV;
         CreateTree::Instance()->depositedIonEnergyECAL_f[1] += energyIon / GeV;
@@ -317,7 +317,7 @@ void SteppingAction::UserSteppingAction(const G4Step *theStep)
 
       }
 
-      if (thePrePVName.contains("ecalCrystalP_f_fiber_cheren"))
+      if (thePrePVName.contains("ecalCrystalP_f_act2_cheren"))
       {
         CreateTree::Instance()->depositedEnergyECAL_f[2] += energy / GeV;
         CreateTree::Instance()->depositedIonEnergyECAL_f[2] += energyIon / GeV;
