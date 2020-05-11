@@ -5,6 +5,9 @@ dual calorimeter toy for HONR class
 first clone with using
    git clone git@github.com:saraheno/dualtoy.git
 
+cd into dualtoy and do
+   sh ./g4env.sh
+
 then compile it with
   cmake -DGeant4_DIR=/cvmfs/geant4.cern.ch/geant4/10.5/x86_64-slc6-gcc63-opt/lib64/GEANT4-10.5.0
   make
